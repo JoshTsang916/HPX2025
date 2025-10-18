@@ -481,6 +481,92 @@ section li {
     z-index: 1;
 }
 
+.agenda-wrapper {
+    background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(36,36,36,0.92) 100%);
+    border: 1px solid rgba(90,90,90,0.7);
+    border-radius: 12px;
+    padding: 0 24px;
+    box-shadow:
+        0 6px 24px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.agenda-wrapper[open] {
+    border-color: var(--accent-teal);
+    box-shadow:
+        0 8px 32px rgba(78,205,196,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.agenda-wrapper summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 22px 0;
+}
+
+.agenda-wrapper summary::marker,
+.agenda-wrapper summary::-webkit-details-marker {
+    display: none;
+    font-size: 0;
+}
+
+.agenda-toggle-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+
+.agenda-toggle-indicator::before {
+    content: '＋ 展開';
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    letter-spacing: 1px;
+}
+
+.agenda-wrapper[open] .agenda-toggle-indicator::before {
+    content: '－ 收合';
+    color: var(--accent-teal);
+}
+
+.agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 18px 0 6px;
+}
+
+.agenda-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.agenda-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.agenda-time {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent-teal);
+    letter-spacing: 0.5px;
+}
+
+.agenda-title {
+    font-size: 1.05rem;
+    color: var(--text-light);
+}
+
 .speakers-list {
     display: grid;
     gap: 24px;
@@ -902,6 +988,28 @@ footer p {
     .speaker-content img {
         align-self: flex-start;
     }
+
+    .agenda-list {
+        padding: 22px 0 10px;
+    }
+
+    .agenda-item {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 24px;
+    }
+
+    .agenda-time {
+        min-width: 180px;
+    }
+
+    .agenda-title {
+        flex: 1;
+    }
+
+    .agenda-toggle-indicator::before {
+        margin-left: auto;
+    }
 }
 
 /* ===== 響應式設計 (桌面) ===== */
@@ -912,6 +1020,19 @@ footer p {
 
     header {
         padding: 120px 40px;
+    }
+
+    .agenda-time {
+        min-width: 200px;
+        font-size: 1.1rem;
+    }
+
+    .agenda-title {
+        font-size: 1.1rem;
+    }
+
+    .agenda-item {
+        gap: 32px;
     }
 
     .speaker-content {
