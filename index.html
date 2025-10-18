@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 - HPX 高雄 x 台南聯合大聚</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== 全域設定 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 色票定義 */
+            --transformative-teal: rgb(92, 37, 14);
+            --electric-fuchsia: rgb(144, 57, 41);
+            --blue-aura: rgb(117, 77, 06);
+            --amber-haze: rgb(043, 65, 31);
+            --jelly-mint: rgb(078, 80, 22);
+
+            /* 實際使用的顏色變數 */
+            --primary-bg: #f0f8ff;        /* 淡藍背景 */
+            --secondary-bg: #e0f5f0;      /* 淡薄荷綠背景 */
+            --primary-text: #0d4d4d;      /* 深青色文字 */
+            --accent-pink: #e91e8c;       /* 亮桃紅強調色 */
+            --accent-amber: #f5a623;      /* 琥珀黃強調色 */
+            --mint-green: #4ecdc4;        /* 薄荷綠 */
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--primary-text);
+            line-height: 1.8;
+            background-color: var(--light-gray);
+        }
+
+        /* ===== 頁首 (Header) ===== */
+        header {
+            background: linear-gradient(135deg, var(--mint-green) 0%, var(--primary-text) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-pink);
+            color: var(--white);
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-amber);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+        }
+
+        /* ===== 區塊共用樣式 ===== */
+        section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section:nth-child(even) {
+            background-color: var(--primary-bg);
+        }
+
+        section:nth-child(odd) {
+            background-color: var(--white);
+        }
+
+        section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-text);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-pink);
+            display: inline-block;
+        }
+
+        section h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--primary-text);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        section p, section ul {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        section ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        section li {
+            margin-bottom: 10px;
+        }
+
+        /* ===== 活動資訊區塊 ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--mint-green);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .info-card h3 {
+            margin-top: 0;
+            color: var(--primary-text);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-card h3::before {
+            content: '▸';
+            color: var(--accent-pink);
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* ===== 報名表單區塊 ===== */
+        #form-section {
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            scroll-margin-top: 20px;
+        }
+
+        form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-text);
+            font-size: 1.05rem;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--mint-green);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .submit-button {
+            background: var(--accent-amber);
+            color: var(--white);
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background: var(--accent-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        /* ===== 注意事項區塊 ===== */
+        .notice-list {
+            background: #fff9e6;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent-amber);
+            margin-top: 20px;
+        }
+
+        .notice-list ol {
+            padding-left: 25px;
+        }
+
+        .notice-list li {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* ===== 頁尾 (Footer) ===== */
+        footer {
+            background: var(--primary-text);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 0;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        /* ===== 響應式設計 (平板以上) ===== */
+        @media (min-width: 768px) {
+            header h1 {
+                font-size: 3.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            form {
+                padding: 50px;
+            }
+
+            .submit-button {
+                width: auto;
+                min-width: 300px;
+            }
+        }
+
+        /* ===== 響應式設計 (桌面) ===== */
+        @media (min-width: 1024px) {
+            section {
+                padding: 80px 40px;
+            }
+
+            header {
+                padding: 120px 40px;
+            }
+        }
+
+        /* ===== 平滑滾動 ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首 -->
+    <header>
+        <h1>2025 - HPX 高雄 x 台南聯合大聚</h1>
+        <a href="#form-section" class="cta-button">我要報名</a>
+    </header>
+
+    <!-- 活動資訊 -->
+    <section id="event-info">
+        <h2>活動資訊</h2>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>協辦單位</h3>
+                <p>HPX 高雄社群、HPX 台南社群、各大設計與科技社群</p>
+            </div>
+
+            <div class="info-card">
+                <h3>活動日期</h3>
+                <p>2025 年 3 月 15 日 (六)<br>14:00 - 17:00</p>
+            </div>
+
+            <div class="info-card">
+                <h3>活動地點</h3>
+                <p>高雄市前鎮區創新中心<br>（近捷運凱旋站）</p>
+            </div>
+
+            <div class="info-card">
+                <h3>分享者</h3>
+                <p>業界資深 UX 設計師、產品經理、前端工程師等重磅講者</p>
+            </div>
+
+            <div class="info-card">
+                <h3>活動費用</h3>
+                <p>早鳥票：NT$ 500<br>一般票：NT$ 800<br>（含茶點、精美小禮）</p>
+            </div>
+
+            <div class="info-card">
+                <h3>名額限制</h3>
+                <p>限額 120 名<br>額滿為止</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 報名方式 -->
+    <section id="registration-info">
+        <h2>報名方式</h2>
+
+        <h3>報名步驟</h3>
+        <ol>
+            <li>填寫下方「報名表單」，提供您的基本資料</li>
+            <li>完成匯款後，請在表單中填寫匯款銀行名稱及帳號末五碼</li>
+            <li>我們將在 2-3 個工作天內寄送確認信至您的 Email</li>
+            <li>活動當天請攜帶確認信（電子版或紙本皆可）報到</li>
+        </ol>
+
+        <div class="info-card" style="margin-top: 30px;">
+            <h3>匯款資訊</h3>
+            <p>
+                <strong>銀行：</strong>台灣銀行 (004) 高雄分行<br>
+                <strong>戶名：</strong>HPX 社群活動專戶<br>
+                <strong>帳號：</strong>123-456-789012<br>
+                <strong>金額：</strong>早鳥 NT$ 500 / 一般 NT$ 800
+            </p>
+        </div>
+
+        <h3 style="margin-top: 40px;">取消及退費規則</h3>
+        <ul>
+            <li>活動前 14 天申請取消，可退費 90%</li>
+            <li>活動前 7 天申請取消，可退費 70%</li>
+            <li>活動前 3 天內恕不接受退費，但可自行轉讓名額</li>
+        </ul>
+
+        <div class="info-card" style="margin-top: 30px;">
+            <h3>活動聯絡人</h3>
+            <p>
+                <strong>負責人：</strong>陳小明<br>
+                <strong>Email：</strong>hpx.event@example.com<br>
+                <strong>電話：</strong>0912-345-678
+            </p>
+        </div>
+    </section>
+
+    <!-- 報名表單 -->
+    <section id="form-section">
+        <h2>立即報名</h2>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="name">您的姓名 *</label>
+                <input type="text" id="name" name="name" required placeholder="請輸入您的真實姓名">
+            </div>
+
+            <div class="form-group">
+                <label for="facebook">Facebook 名稱 *</label>
+                <input type="text" id="facebook" name="facebook" required placeholder="請輸入您的 Facebook 顯示名稱">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="example@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="bank">匯款銀行名稱 *</label>
+                <input type="text" id="bank" name="bank" required placeholder="例如：台灣銀行、中國信託等">
+            </div>
+
+            <div class="form-group">
+                <label for="account">匯款帳號末五碼 *</label>
+                <input type="text" id="account" name="account" required placeholder="請輸入您匯款帳號的最後五碼" maxlength="5" pattern="[0-9]{5}">
+            </div>
+
+            <button type="submit" class="submit-button">確認送出報名</button>
+        </form>
+    </section>
+
+    <!-- 注意事項 -->
+    <section id="notice">
+        <h2>注意事項</h2>
+
+        <div class="notice-list">
+            <ol>
+                <li><strong>報名確認：</strong>完成匯款並填寫表單後，請務必等待主辦單位寄發的確認信，收到確認信才算報名成功。若三個工作天內未收到確認信，請主動聯繫活動負責人。</li>
+
+                <li><strong>個人資料保護：</strong>您所提供的個人資料僅供本次活動報名、聯繫及後續活動通知使用，我們將遵守個人資料保護法相關規定，不會將您的資料提供給第三方或作為其他用途。</li>
+
+                <li><strong>活動異動通知：</strong>如遇天災或不可抗力因素導致活動延期或取消，主辦單位將透過 Email 及社群平台公告，並提供全額退費或保留至下次活動的選項。請務必確保您填寫的聯絡方式正確無誤。</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2025 HPX 高雄 x 台南聯合大聚 版權所有</p>
+        <p>由 HPX 社群用心籌辦 | 追求更好的使用者體驗</p>
+    </footer>
+
+</body>
+</html>
