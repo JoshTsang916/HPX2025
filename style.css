@@ -331,6 +331,10 @@ section h3 {
     letter-spacing: 1px;
 }
 
+#registration-info h3:first-of-type {
+    margin-top: 12px;
+}
+
 section p, section ul {
     margin-bottom: 20px;
     font-size: 1.1rem;
@@ -513,8 +517,10 @@ section li {
     position: relative;
 }
 
+.speaker-card summary::marker,
 .speaker-card summary::-webkit-details-marker {
     display: none;
+    font-size: 0;
 }
 
 .speaker-summary {
