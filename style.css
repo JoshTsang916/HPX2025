@@ -227,7 +227,7 @@ header::after {
 header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
     position: relative;
     z-index: 1;
     background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-amber) 100%);
@@ -236,6 +236,14 @@ header h1 {
     background-clip: text;
     text-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
     letter-spacing: 2px;
+}
+
+.event-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin: -10px auto 30px;
+    letter-spacing: 1px;
+    max-width: 620px;
 }
 
 .cta-button {
@@ -334,6 +342,16 @@ section p, section ul {
 section ul {
     list-style-position: inside;
     padding-left: 20px;
+}
+
+#registration-info ol {
+    padding-left: 36px;
+    margin-left: 0;
+    list-style-position: outside;
+}
+
+#registration-info ol li {
+    padding-left: 6px;
 }
 
 section li {
