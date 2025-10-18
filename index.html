@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+    <!-- tsParticles CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-engine@2/tsparticles.engine.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
     <style>
         /* ===== 全域設定 ===== */
         * {
@@ -36,10 +40,24 @@
             color: var(--text-light);
             line-height: 1.8;
             background: var(--dark-bg);
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(78, 205, 196, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(245, 166, 35, 0.03) 0%, transparent 50%);
-            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* ===== tsParticles 背景容器 ===== */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: var(--dark-bg);
+        }
+
+        /* 確保所有內容在粒子背景之上 */
+        header, section, footer {
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== 頁首 (Header) - 深色金屬質感 ===== */
@@ -484,6 +502,9 @@
 </head>
 <body>
 
+    <!-- tsParticles 粒子背景 -->
+    <div id="tsparticles"></div>
+
     <!-- 頁首 -->
     <header>
         <h1>2025 - HPX 高雄 x 台南聯合大聚</h1>
@@ -620,6 +641,108 @@
         <p>&copy; 2025 HPX 高雄 x 台南聯合大聚 版權所有</p>
         <p>由 HPX 社群用心籌辦 | 追求更好的使用者體驗</p>
     </footer>
+
+    <!-- tsParticles 初始化腳本 -->
+    <script>
+        // 等待 DOM 載入完成
+        window.addEventListener('DOMContentLoaded', function() {
+            // 初始化 tsParticles - AI 電路板風格
+            tsParticles.load("tsparticles", {
+                fullScreen: {
+                    enable: false,
+                    zIndex: 0
+                },
+                background: {
+                    color: {
+                        value: "#1a1a1a"
+                    }
+                },
+                fpsLimit: 60,
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ["#4ecdc4", "#f5a623", "#e91e8c"]
+                    },
+                    shape: {
+                        type: ["circle", "triangle"],
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 0.5,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.5,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#4ecdc4",
+                        opacity: 0.3,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1.5,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: true,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 200,
+                            line_linked: {
+                                opacity: 0.6
+                            }
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+    </script>
 
 </body>
 </html>
