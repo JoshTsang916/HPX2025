@@ -450,6 +450,132 @@ section li {
     color: #70f0e8;
 }
 
+.section-intro {
+    margin: -10px 0 30px;
+    color: var(--text-gray);
+    font-size: 1.05rem;
+    max-width: 720px;
+}
+
+#speakers {
+    background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+#speakers::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(78,205,196,0.08), transparent 55%),
+                radial-gradient(circle at 80% 60%, rgba(229,105,180,0.06), transparent 60%);
+    pointer-events: none;
+}
+
+#speakers > * {
+    position: relative;
+    z-index: 1;
+}
+
+.speakers-list {
+    display: grid;
+    gap: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.speaker-card {
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(36, 36, 36, 0.9) 100%);
+    border: 1px solid var(--border-metal);
+    border-radius: 10px;
+    padding: 0 24px 24px;
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.speaker-card[open] {
+    border-color: var(--accent-teal);
+    box-shadow:
+        0 6px 28px rgba(78, 205, 196, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.speaker-card summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 0;
+    position: relative;
+}
+
+.speaker-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.speaker-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.speaker-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.speaker-topic {
+    font-size: 1rem;
+    color: var(--accent-teal);
+}
+
+.toggle-indicator {
+    align-self: flex-start;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.speaker-card[open] .toggle-indicator::after {
+    content: '（收合）';
+    margin-left: 6px;
+}
+
+.speaker-card:not([open]) .toggle-indicator::after {
+    content: '（展開）';
+    margin-left: 6px;
+}
+
+.speaker-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 20px;
+}
+
+.speaker-content img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    background: #0a0a0a;
+    align-self: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.speaker-content p {
+    color: var(--text-gray);
+    line-height: 1.7;
+}
+
 /* ===== 報名表單區塊 - 深色石頭質感 ===== */
 #form-section {
     background: linear-gradient(135deg, var(--darker-bg) 0%, #0a0a0a 100%);
@@ -742,6 +868,34 @@ footer p {
     .qr-block {
         margin: 0;
     }
+
+    .speakers-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .speaker-card summary {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .speaker-summary {
+        flex: 1;
+    }
+
+    .toggle-indicator {
+        align-self: center;
+    }
+
+    .speaker-content {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .speaker-content img {
+        align-self: flex-start;
+    }
 }
 
 /* ===== 響應式設計 (桌面) ===== */
@@ -752,6 +906,15 @@ footer p {
 
     header {
         padding: 120px 40px;
+    }
+
+    .speaker-content {
+        gap: 28px;
+    }
+
+    .speaker-content img {
+        width: 190px;
+        height: 190px;
     }
 }
 
