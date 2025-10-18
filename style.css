@@ -433,6 +433,23 @@ section li {
     z-index: 1;
 }
 
+.info-card a {
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.info-card a:hover {
+    color: #70f0e8;
+    text-decoration: underline;
+}
+
+.info-card a:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 3px;
+    color: #70f0e8;
+}
+
 /* ===== 報名表單區塊 - 深色石頭質感 ===== */
 #form-section {
     background: linear-gradient(135deg, var(--darker-bg) 0%, #0a0a0a 100%);
