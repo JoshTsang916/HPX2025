@@ -362,6 +362,165 @@ section li {
     margin-bottom: 10px;
 }
 
+/* ===== 活動視覺區塊 - 發光螢幕效果 ===== */
+#poster-section {
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    padding: 70px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景光暈效果 */
+#poster-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(78, 205, 196, 0.15) 0%,
+        rgba(78, 205, 196, 0.08) 30%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+.poster-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.poster-frame {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--metal-dark) 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--border-metal);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(78, 205, 196, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+/* 金屬光澤掃過效果 */
+.poster-frame::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.08) 50%,
+        transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: metalShine 8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes metalShine {
+    0% {
+        left: -200%;
+    }
+    100% {
+        left: 200%;
+    }
+}
+
+/* 邊緣發光動畫 */
+.poster-frame::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 12px;
+    padding: 2px;
+    background: linear-gradient(
+        135deg,
+        var(--accent-teal),
+        var(--accent-amber),
+        var(--accent-pink),
+        var(--accent-teal)
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: borderGlow 3s linear infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.poster-frame:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.8),
+        0 0 60px rgba(78, 205, 196, 0.5),
+        inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-teal);
+}
+
+.poster-frame:hover::after {
+    opacity: 0.8;
+}
+
+.poster-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.poster-caption {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+}
+
 /* ===== 活動資訊區塊 - 金屬卡片 ===== */
 .info-grid {
     display: grid;
