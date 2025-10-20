@@ -510,15 +510,33 @@ section li {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.poster-caption {
-    font-size: 1.1rem;
-    color: var(--text-gray);
+/* 海報標題 - 置中 */
+.poster-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-teal);
     text-align: center;
-    letter-spacing: 1px;
-    margin-top: 10px;
+    letter-spacing: 1.5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     position: relative;
     z-index: 1;
-    font-style: italic;
+}
+
+/* 海報說明文字 - 靠左 */
+.poster-description {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.poster-description p {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    text-align: left;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+    margin-bottom: 15px;
 }
 
 /* ===== 活動資訊區塊 - 金屬卡片 ===== */
