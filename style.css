@@ -962,7 +962,7 @@ footer p {
     }
 
     .speakers-list {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
 
     .speaker-card summary {
@@ -1040,8 +1040,8 @@ footer p {
     }
 
     .speaker-content img {
-        width: 190px;
-        height: 190px;
+        width: 160px;
+        height: 160px;
     }
 }
 
