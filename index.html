@@ -107,7 +107,7 @@
                     <span class="toggle-indicator" aria-hidden="true">展開詳情</span>
                 </summary>
                 <div class="speaker-content">
-                    <img src="images/speaker2.jpg" alt="講者二照片">
+                    <img src="images/speaker2.png" alt="講者二照片">
                     <p>AI 不是只有ChatGPT，也不是只有 nano banana。AI 可以幫助你打造你的裝備，創造你的渴望。這次報名頁面就是用VibeCoding打造的，不會寫程式碼也可以做功能造網站的時代已經到來，一起在這無限大的遊樂場開心的探索吧。</p>
                 </div>
             </details>
@@ -134,14 +134,14 @@
             <details class="speaker-card">
                 <summary>
                     <div class="speaker-summary">
-                        <span class="speaker-name">講者四｜成長教練</span>
-                        <span class="speaker-topic">打造敏捷學習與團隊默契</span>
+                        <span class="speaker-name">講者四｜Angie一吉</span>
+                        <span class="speaker-topic">是讀書也是心靈之旅 - 深夜食堂</span>
                     </div>
                     <span class="toggle-indicator" aria-hidden="true">展開詳情</span>
                 </summary>
                 <div class="speaker-content">
                     <img src="images/speaker4.jpg" alt="講者四照片">
-                    <p>結合心理學與敏捷教練背景，協助團隊建立高效溝通與反思文化。透過工作坊與引導工具，帶領成員拆解問題、共創解方，打造自我驅動的學習系統，強化跨域合作動能。</p>
+                    <p>一起讀書也能顧好彼此的味蕾，創意深夜食堂料理讀書會，不僅有知識，更能色香味俱全。</p>
                 </div>
             </details>
         </div>
@@ -285,6 +285,36 @@
             <div id="submit-message" style="margin-top: 20px; text-align: center; display: none;"></div>
         </form>
     </section>
+
+    <!-- 確認對話框 -->
+    <div id="confirmation-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>請確認您的報名資訊</h3>
+            <p class="modal-notice">此資訊將用於報名認證及確認匯款，請仔細確認無誤後再送出</p>
+            <div class="confirmation-details">
+                <div class="detail-item">
+                    <span class="detail-label">本名：</span>
+                    <span class="detail-value" id="confirm-name"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Email：</span>
+                    <span class="detail-value" id="confirm-email"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">匯款銀行：</span>
+                    <span class="detail-value" id="confirm-bank"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">帳號末五碼：</span>
+                    <span class="detail-value" id="confirm-account"></span>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="cancel-btn" class="modal-btn cancel-btn">返回修改</button>
+                <button type="button" id="confirm-btn" class="modal-btn confirm-btn">確認送出</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 注意事項 -->
     <section id="notice">

@@ -1226,3 +1226,221 @@ footer p {
 html {
     scroll-behavior: smooth;
 }
+
+/* ===== 確認對話框 (Modal) ===== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, var(--card-bg) 0%, var(--metal-dark) 100%);
+    border: 2px solid var(--accent-teal);
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 550px;
+    width: 100%;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(78, 205, 196, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+    position: relative;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 金屬光澤效果 */
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    animation: modalShine 3s linear infinite;
+}
+
+@keyframes modalShine {
+    0% {
+        left: -50%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+.modal-content h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.6rem;
+    color: var(--accent-teal);
+    text-align: center;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.modal-notice {
+    font-size: 0.95rem;
+    color: var(--accent-amber);
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 12px;
+    background: rgba(245, 166, 35, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    line-height: 1.6;
+}
+
+.confirmation-details {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-metal);
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.detail-item {
+    display: flex;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent-teal);
+    min-width: 110px;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--text-light);
+    flex: 1;
+    word-break: break-word;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.modal-btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    min-width: 140px;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn {
+    background: linear-gradient(135deg, var(--metal-dark) 0%, var(--card-bg) 100%);
+    color: var(--text-gray);
+    border: 1px solid var(--border-metal);
+}
+
+.cancel-btn:hover {
+    background: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 100%);
+    color: var(--text-light);
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.confirm-btn {
+    background: linear-gradient(135deg, var(--deep-wine) 0%, var(--deep-purple) 100%);
+    color: var(--accent-teal);
+    border: 1px solid var(--deep-purple);
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(135deg, #8b2f4a 0%, #6a2a7c 100%);
+    color: var(--accent-teal);
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 25px rgba(107, 31, 58, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 響應式設計 - 行動裝置 */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 25px 20px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .detail-label {
+        min-width: auto;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+    }
+
+    .modal-btn {
+        width: 100%;
+    }
+}

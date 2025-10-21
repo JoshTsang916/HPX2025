@@ -7,10 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
     const submitMessage = document.getElementById('submit-message');
+    const modal = document.getElementById('confirmation-modal');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
     let isSubmitting = false;
+    let formDataToSubmit = null;
 
-    // 表單送出事件監聽
-    form.addEventListener('submit', async function(e) {
+    // 表單送出事件監聽 - 顯示確認對話框
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
 
         // 防止重複送出
@@ -19,21 +23,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // 收集表單資料
+        formDataToSubmit = collectFormData();
+
+        // 顯示確認對話框
+        showConfirmationModal(formDataToSubmit);
+    });
+
+    // 確認按鈕事件監聽 - 真正送出表單
+    confirmBtn.addEventListener('click', async function() {
+        // 隱藏對話框
+        hideConfirmationModal();
+
         // 設定送出狀態
         setSubmittingState(true);
 
-        // 收集表單資料
-        const formData = collectFormData();
-
         try {
             // 發送到 webhook
-            await sendToWebhook(formData);
+            await sendToWebhook(formDataToSubmit);
 
             // 顯示成功訊息
             showSuccessMessage();
 
             // 清空表單
             form.reset();
+            formDataToSubmit = null;
 
             // 5 秒後恢復按鈕狀態
             setTimeout(() => {
@@ -54,6 +68,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 5000);
 
             console.error('表單送出錯誤:', error);
+        }
+    });
+
+    // 取消按鈕事件監聽 - 關閉對話框
+    cancelBtn.addEventListener('click', function() {
+        hideConfirmationModal();
+    });
+
+    // 點擊對話框外部關閉對話框
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            hideConfirmationModal();
         }
     });
 
@@ -130,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showSuccessMessage() {
         submitMessage.style.display = 'block';
         submitMessage.style.color = '#4ecdc4';
-        submitMessage.innerHTML = '✓ 報名成功！我們將在 2-3 個工作天內寄送確認信至您的 Email。';
+        submitMessage.innerHTML = '✓ 報名完成！請加入HPX2025大聚line官方帳號完成認證程序。';
     }
 
     /**
@@ -147,6 +173,33 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function hideMessage() {
         submitMessage.style.display = 'none';
+    }
+
+    /**
+     * 顯示確認對話框
+     */
+    function showConfirmationModal(formData) {
+        // 填入資料到對話框
+        document.getElementById('confirm-name').textContent = formData.name;
+        document.getElementById('confirm-email').textContent = formData.email;
+        document.getElementById('confirm-bank').textContent = formData.bank;
+        document.getElementById('confirm-account').textContent = formData.account;
+
+        // 顯示對話框
+        modal.style.display = 'flex';
+
+        // 防止背景滾動
+        document.body.style.overflow = 'hidden';
+    }
+
+    /**
+     * 隱藏確認對話框
+     */
+    function hideConfirmationModal() {
+        modal.style.display = 'none';
+
+        // 恢復背景滾動
+        document.body.style.overflow = '';
     }
 });
 
