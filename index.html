@@ -211,6 +211,7 @@
         <ol>
             <li>依照下方匯款資訊完成匯款，報名費用 350 元，名額限制為 90 名，額滿為止</li>
             <li>完成匯款後，填寫下方「報名表單」，並在表單中填寫匯款銀行名稱及帳號末五碼完成報名</li>
+            <li>每次填寫僅限報名一人（驗證與報到需使用本名），若要報名超過一人請重複填寫表單</li>
             <li>報名資訊送出後，請加入此次活動Line官方帳號(HPX 高雄 2025 大聚)，可在Line官方帳號中查詢報名是否成功，若有疑問請主動聯繫活動負責人。</li>
             <li>活動前夕會用Line通知活動資訊，當天也會使用Line官方帳號進行報到，請務必加入Line官方帳號，以免影響您的報到流程。</li>
         </ol>
@@ -246,7 +247,7 @@
 
         <form id="registration-form" action="#" method="POST">
             <div class="form-group">
-                <label for="name">您的本名 (此為確認報名成功與否之重要依據,請謹慎填寫) *</label>
+                <label for="name">您的本名 (一次僅填寫一位，若要報名多位請分開填寫報名表單) *</label>
                 <input type="text" id="name" name="name" required placeholder="請輸入您的真實姓名">
             </div>
 
@@ -290,7 +291,7 @@
     <div id="confirmation-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <h3>請確認您的報名資訊</h3>
-            <p class="modal-notice">此資訊將用於報名認證及確認匯款，請仔細確認無誤後再送出</p>
+            <p class="modal-notice">此資訊將用於報名認證及確認匯款，請仔細確認無誤後再送出<br>(一次僅填寫一位，若要報名多位請分開填寫報名表單) </p>
             <div class="confirmation-details">
                 <div class="detail-item">
                     <span class="detail-label">本名：</span>
