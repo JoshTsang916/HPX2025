@@ -219,10 +219,10 @@ window.addEventListener('DOMContentLoaded', function() {
                 value: "#1a1a1a"
             }
         },
-        fpsLimit: 60,
+        fpsLimit: 30,
         particles: {
             number: {
-                value: 60,
+                value: 40,
                 density: {
                     enable: true,
                     value_area: 800
@@ -232,11 +232,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 value: ["#4ecdc4", "#f5a623", "#e91e8c"]
             },
             shape: {
-                type: ["char", "char", "char", "char", "circle"],
+                type: ["char", "char", "char", "char"],
                 options: {
                     char: [
                         {
-                            value: ["遇", "讀", "知", "識", "人"],
+                            value: ["遇", "讀", "人"],
                             font: "Noto Sans TC",
                             weight: "500",
                             fill: true
@@ -274,10 +274,10 @@ window.addEventListener('DOMContentLoaded', function() {
             },
             line_linked: {
                 enable: true,
-                distance: 180,
+                distance: 150,
                 color: "#4ecdc4",
                 opacity: 0.25,
-                width: 1.5
+                width: 1
             },
             move: {
                 enable: true,
@@ -309,13 +309,14 @@ window.addEventListener('DOMContentLoaded', function() {
             },
             modes: {
                 grab: {
-                    distance: 220,
+                    distance: 150,
                     line_linked: {
-                        opacity: 0.5
+                        opacity: 0.4
                     }
                 },
                 push: {
-                    particles_nb: 1
+                    particles_nb: 1,
+                    quantity: 1
                 }
             }
         },
