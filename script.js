@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ========================================
 
 window.addEventListener('DOMContentLoaded', function() {
-    // 初始化 tsParticles - AI 電路板風格
+    // 初始化 tsParticles - 閱讀與知識相遇風格
     tsParticles.load("tsparticles", {
         fullScreen: {
             enable: false,
@@ -222,7 +222,7 @@ window.addEventListener('DOMContentLoaded', function() {
         fpsLimit: 60,
         particles: {
             number: {
-                value: 80,
+                value: 60,
                 density: {
                     enable: true,
                     value_area: 800
@@ -232,38 +232,56 @@ window.addEventListener('DOMContentLoaded', function() {
                 value: ["#4ecdc4", "#f5a623", "#e91e8c"]
             },
             shape: {
-                type: ["circle", "triangle"],
+                type: ["char", "char", "char", "char", "circle"],
+                options: {
+                    char: [
+                        {
+                            value: ["遇", "讀", "知", "識", "人"],
+                            font: "Noto Sans TC",
+                            weight: "500",
+                            fill: true
+                        },
+                        {
+                            value: ["📖", "✨", "💡"],
+                            font: "Arial",
+                            fill: true
+                        }
+                    ]
+                }
             },
             opacity: {
-                value: 0.5,
+                value: 0.6,
                 random: true,
                 anim: {
                     enable: true,
-                    speed: 0.5,
-                    opacity_min: 0.1,
+                    speed: 0.3,
+                    opacity_min: 0.2,
                     sync: false
                 }
             },
             size: {
-                value: 3,
-                random: true,
+                value: 12,
+                random: {
+                    enable: true,
+                    minimumValue: 3
+                },
                 anim: {
                     enable: true,
-                    speed: 2,
-                    size_min: 0.5,
+                    speed: 1,
+                    size_min: 3,
                     sync: false
                 }
             },
             line_linked: {
                 enable: true,
-                distance: 150,
+                distance: 180,
                 color: "#4ecdc4",
-                opacity: 0.3,
-                width: 1
+                opacity: 0.25,
+                width: 1.5
             },
             move: {
                 enable: true,
-                speed: 1.5,
+                speed: 0.8,
                 direction: "none",
                 random: true,
                 straight: false,
@@ -271,8 +289,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 bounce: false,
                 attract: {
                     enable: true,
-                    rotateX: 600,
-                    rotateY: 1200
+                    rotateX: 800,
+                    rotateY: 1600
                 }
             }
         },
@@ -291,13 +309,13 @@ window.addEventListener('DOMContentLoaded', function() {
             },
             modes: {
                 grab: {
-                    distance: 200,
+                    distance: 220,
                     line_linked: {
-                        opacity: 0.6
+                        opacity: 0.5
                     }
                 },
                 push: {
-                    particles_nb: 4
+                    particles_nb: 1
                 }
             }
         },
