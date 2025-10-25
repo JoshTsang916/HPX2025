@@ -35,6 +35,23 @@ body {
     position: relative;
 }
 
+/* ===== 內容區域連結樣式 ===== */
+section a {
+    color: var(--accent-teal);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+section a:hover {
+    color: #70f0e8;
+    border-bottom-color: var(--accent-teal);
+}
+
+section a:visited {
+    color: var(--accent-teal);
+}
+
 /* ===== tsParticles 背景容器 ===== */
 #tsparticles {
     position: fixed;
