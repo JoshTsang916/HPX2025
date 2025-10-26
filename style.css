@@ -825,17 +825,18 @@ section li {
     font-size: 0.9rem;
     color: var(--text-gray);
     letter-spacing: 1px;
-    text-transform: uppercase;
 }
 
-.speaker-card[open] .toggle-indicator::after {
-    content: '（收合）';
-    margin-left: 6px;
+.toggle-indicator::before {
+    content: '＋ 展開';
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    letter-spacing: 1px;
 }
 
-.speaker-card:not([open]) .toggle-indicator::after {
-    content: '（展開）';
-    margin-left: 6px;
+.speaker-card[open] .toggle-indicator::before {
+    content: '－ 收合';
+    color: var(--accent-teal);
 }
 
 .speaker-content {
