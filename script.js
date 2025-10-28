@@ -323,3 +323,252 @@ window.addEventListener('DOMContentLoaded', function() {
         retina_detect: true
     });
 });
+
+// ========================================
+// Header Stickers 碰撞效果 (Matter.js)
+// ========================================
+
+window.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('header-stickers-canvas');
+    const header = document.querySelector('header');
+
+    if (!canvas || !header) return;
+
+    // Matter.js 模組
+    const Engine = Matter.Engine;
+    const Render = Matter.Render;
+    const World = Matter.World;
+    const Bodies = Matter.Bodies;
+    const Mouse = Matter.Mouse;
+    const MouseConstraint = Matter.MouseConstraint;
+    const Runner = Matter.Runner;
+    const Events = Matter.Events;
+
+    // 建立引擎 - 無重力
+    const engine = Engine.create({
+        gravity: { x: 0, y: 0 } // 無重力
+    });
+
+    // 取得 header 尺寸
+    const headerRect = header.getBoundingClientRect();
+
+    // 建立渲染器
+    const render = Render.create({
+        canvas: canvas,
+        engine: engine,
+        options: {
+            width: headerRect.width,
+            height: headerRect.height,
+            wireframes: false,
+            background: 'transparent',
+            pixelRatio: window.devicePixelRatio || 1
+        }
+    });
+
+    // Stickers 圖片路徑
+    const stickerPaths = [
+        'stickers/sticker1.png',
+        'stickers/sticker2.png',
+        'stickers/sticker3.png',
+        'stickers/sticker4.png',
+        'stickers/sticker5.png',
+        'stickers/sticker6.png'
+    ];
+
+    // 預載入圖片
+    const stickerImages = [];
+    let loadedCount = 0;
+
+    stickerPaths.forEach((path, index) => {
+        const img = new Image();
+        img.src = path;
+        img.onload = () => {
+            loadedCount++;
+            if (loadedCount === stickerPaths.length) {
+                initStickers();
+            }
+        };
+        stickerImages.push(img);
+    });
+
+    function initStickers() {
+        const stickers = [];
+        const stickerSize = 60; // 貼紙大小
+
+        // 創建邊界牆壁 (不可見)
+        const wallThickness = 50;
+        const headerWidth = headerRect.width;
+        const headerHeight = headerRect.height;
+
+        const walls = [
+            // 上
+            Bodies.rectangle(
+                headerWidth / 2,
+                -wallThickness / 2,
+                headerWidth,
+                wallThickness,
+                { isStatic: true, render: { visible: false } }
+            ),
+            // 下
+            Bodies.rectangle(
+                headerWidth / 2,
+                headerHeight + wallThickness / 2,
+                headerWidth,
+                wallThickness,
+                { isStatic: true, render: { visible: false } }
+            ),
+            // 左
+            Bodies.rectangle(
+                -wallThickness / 2,
+                headerHeight / 2,
+                wallThickness,
+                headerHeight,
+                { isStatic: true, render: { visible: false } }
+            ),
+            // 右
+            Bodies.rectangle(
+                headerWidth + wallThickness / 2,
+                headerHeight / 2,
+                wallThickness,
+                headerHeight,
+                { isStatic: true, render: { visible: false } }
+            )
+        ];
+
+        // 創建 sticker 物體
+        stickerImages.forEach((img, index) => {
+            // 隨機位置 (避開中央文字區域)
+            let x, y;
+
+            // 避開中央區域
+            const centerX = headerWidth / 2;
+            const centerY = headerHeight / 2;
+            const avoidWidth = headerWidth * 0.5;
+            const avoidHeight = headerHeight * 0.4;
+
+            do {
+                x = Math.random() * (headerWidth - 160) + 80;
+                y = Math.random() * (headerHeight - 160) + 80;
+            } while (
+                x > centerX - avoidWidth / 2 &&
+                x < centerX + avoidWidth / 2 &&
+                y > centerY - avoidHeight / 2 &&
+                y < centerY + avoidHeight / 2
+            );
+
+            // 隨機初始速度 (較快速度確保持續運動)
+            const velocityX = (Math.random() - 0.5) * 4;
+            const velocityY = (Math.random() - 0.5) * 4;
+
+            const sticker = Bodies.circle(x, y, stickerSize / 2, {
+                restitution: 1.0,    // 完全彈性 - 不損失能量
+                friction: 0,         // 無摩擦力
+                frictionAir: 0,      // 無空氣阻力
+                density: 0.001,      // 密度
+                render: {
+                    sprite: {
+                        texture: img.src,
+                        xScale: stickerSize / img.width,
+                        yScale: stickerSize / img.height
+                    }
+                }
+            });
+
+            // 設定初始速度
+            Matter.Body.setVelocity(sticker, { x: velocityX, y: velocityY });
+
+            // 添加旋轉
+            Matter.Body.setAngularVelocity(sticker, (Math.random() - 0.5) * 0.03);
+
+            stickers.push(sticker);
+        });
+
+        // 將所有物體加入世界
+        World.add(engine.world, [...walls, ...stickers]);
+
+        // 滑鼠互動
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+
+        World.add(engine.world, mouseConstraint);
+        render.mouse = mouse;
+
+        // 維持速度恆定 (補償能量損失)
+        Events.on(engine, 'beforeUpdate', () => {
+            stickers.forEach(sticker => {
+                const minSpeed = 2;
+                const maxSpeed = 5;
+                const velocity = sticker.velocity;
+                const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+
+                // 如果速度太慢，補充能量
+                if (speed < minSpeed) {
+                    const angle = Math.random() * Math.PI * 2;
+                    Matter.Body.setVelocity(sticker, {
+                        x: Math.cos(angle) * minSpeed,
+                        y: Math.sin(angle) * minSpeed
+                    });
+                }
+
+                // 限制最大速度
+                if (speed > maxSpeed) {
+                    Matter.Body.setVelocity(sticker, {
+                        x: (velocity.x / speed) * maxSpeed,
+                        y: (velocity.y / speed) * maxSpeed
+                    });
+                }
+
+                // 限制旋轉速度
+                const maxAngularSpeed = 0.05;
+                if (Math.abs(sticker.angularVelocity) > maxAngularSpeed) {
+                    Matter.Body.setAngularVelocity(
+                        sticker,
+                        Math.sign(sticker.angularVelocity) * maxAngularSpeed
+                    );
+                }
+            });
+        });
+
+        // 啟動渲染器和引擎
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // 視窗大小改變時重新調整
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const newRect = header.getBoundingClientRect();
+                render.canvas.width = newRect.width;
+                render.canvas.height = newRect.height;
+                render.options.width = newRect.width;
+                render.options.height = newRect.height;
+
+                // 更新牆壁位置
+                Matter.Body.setPosition(walls[0], {
+                    x: newRect.width / 2,
+                    y: -wallThickness / 2
+                });
+                Matter.Body.setPosition(walls[1], {
+                    x: newRect.width / 2,
+                    y: newRect.height + wallThickness / 2
+                });
+                Matter.Body.setPosition(walls[2], {
+                    x: -wallThickness / 2,
+                    y: newRect.height / 2
+                });
+                Matter.Body.setPosition(walls[3], {
+                    x: newRect.width + wallThickness / 2,
+                    y: newRect.height / 2
+                });
+            }, 250);
+        });
+    }
+});
