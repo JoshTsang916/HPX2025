@@ -339,8 +339,6 @@ window.addEventListener('DOMContentLoaded', function() {
     const Render = Matter.Render;
     const World = Matter.World;
     const Bodies = Matter.Bodies;
-    const Mouse = Matter.Mouse;
-    const MouseConstraint = Matter.MouseConstraint;
     const Runner = Matter.Runner;
     const Events = Matter.Events;
 
@@ -361,7 +359,7 @@ window.addEventListener('DOMContentLoaded', function() {
             height: headerRect.height,
             wireframes: false,
             background: 'transparent',
-            pixelRatio: window.devicePixelRatio || 1
+            pixelRatio: 1  // 固定為 1，避免縮放時大小變動
         }
     });
 
@@ -393,7 +391,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function initStickers() {
         const stickers = [];
-        const stickerSize = 60; // 貼紙大小
+        const stickerSize = 60; // 貼紙大小 (固定像素)
+        const stickerData = []; // 儲存貼紙資料以便 resize 使用
 
         // 創建邊界牆壁 (不可見)
         const wallThickness = 50;
@@ -480,24 +479,18 @@ window.addEventListener('DOMContentLoaded', function() {
             // 添加旋轉
             Matter.Body.setAngularVelocity(sticker, (Math.random() - 0.5) * 0.03);
 
+            // 儲存原始圖片尺寸和貼紙物件的對應關係
+            stickerData.push({
+                body: sticker,
+                imgWidth: img.width,
+                imgHeight: img.height
+            });
+
             stickers.push(sticker);
         });
 
         // 將所有物體加入世界
         World.add(engine.world, [...walls, ...stickers]);
-
-        // 滑鼠互動
-        const mouse = Mouse.create(render.canvas);
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: { visible: false }
-            }
-        });
-
-        World.add(engine.world, mouseConstraint);
-        render.mouse = mouse;
 
         // 維持速度恆定 (補償能量損失)
         Events.on(engine, 'beforeUpdate', () => {
@@ -546,27 +539,88 @@ window.addEventListener('DOMContentLoaded', function() {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 const newRect = header.getBoundingClientRect();
+
+                // 更新 canvas 尺寸
                 render.canvas.width = newRect.width;
                 render.canvas.height = newRect.height;
                 render.options.width = newRect.width;
                 render.options.height = newRect.height;
 
-                // 更新牆壁位置
-                Matter.Body.setPosition(walls[0], {
-                    x: newRect.width / 2,
-                    y: -wallThickness / 2
-                });
-                Matter.Body.setPosition(walls[1], {
-                    x: newRect.width / 2,
-                    y: newRect.height + wallThickness / 2
-                });
-                Matter.Body.setPosition(walls[2], {
-                    x: -wallThickness / 2,
-                    y: newRect.height / 2
-                });
-                Matter.Body.setPosition(walls[3], {
-                    x: newRect.width + wallThickness / 2,
-                    y: newRect.height / 2
+                // 移除舊牆壁
+                World.remove(engine.world, walls);
+
+                // 創建新牆壁（使用新尺寸）
+                const newWalls = [
+                    // 上
+                    Bodies.rectangle(
+                        newRect.width / 2,
+                        -wallThickness / 2,
+                        newRect.width,
+                        wallThickness,
+                        { isStatic: true, render: { visible: false } }
+                    ),
+                    // 下
+                    Bodies.rectangle(
+                        newRect.width / 2,
+                        newRect.height + wallThickness / 2,
+                        newRect.width,
+                        wallThickness,
+                        { isStatic: true, render: { visible: false } }
+                    ),
+                    // 左
+                    Bodies.rectangle(
+                        -wallThickness / 2,
+                        newRect.height / 2,
+                        wallThickness,
+                        newRect.height,
+                        { isStatic: true, render: { visible: false } }
+                    ),
+                    // 右
+                    Bodies.rectangle(
+                        newRect.width + wallThickness / 2,
+                        newRect.height / 2,
+                        wallThickness,
+                        newRect.height,
+                        { isStatic: true, render: { visible: false } }
+                    )
+                ];
+
+                // 更新牆壁陣列引用
+                walls.length = 0;
+                walls.push(...newWalls);
+
+                // 加入新牆壁到世界
+                World.add(engine.world, newWalls);
+
+                // 約束貼紙位置，確保它們在新邊界內
+                const margin = stickerSize;
+                stickerData.forEach(data => {
+                    const pos = data.body.position;
+                    let newX = pos.x;
+                    let newY = pos.y;
+
+                    // 檢查並調整 X 座標
+                    if (newX < margin) {
+                        newX = margin;
+                    } else if (newX > newRect.width - margin) {
+                        newX = newRect.width - margin;
+                    }
+
+                    // 檢查並調整 Y 座標
+                    if (newY < margin) {
+                        newY = margin;
+                    } else if (newY > newRect.height - margin) {
+                        newY = newRect.height - margin;
+                    }
+
+                    // 如果位置需要調整，更新貼紙位置
+                    if (newX !== pos.x || newY !== pos.y) {
+                        Matter.Body.setPosition(data.body, { x: newX, y: newY });
+                    }
+
+                    // 重新設定貼紙的縮放比例（保持固定大小）
+                    data.body.render.sprite.xScale = stickerSize / data.imgWidth;
+                    data.body.render.sprite.yScale = stickerSize / data.imgHeight;
                 });
             }, 250);
         });
