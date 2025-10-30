@@ -34,9 +34,31 @@
         <!-- Stickers 碰撞效果 -->
         <canvas id="header-stickers-canvas"></canvas>
 
-        <h1>2025 - HPX 高雄讀書會 x 好南人Fun學趣 聯合大聚</h1>
+        <h1>HPXKH x 好南人Fun學趣 聯合大聚</h1>
         <p class="event-subtitle">遇 - 閱讀是與書相遇．與知識相遇．與人相遇</p>
         <a href="#form-section" class="cta-button">我要報名</a>
+
+        <button type="button" class="quick-nav-toggle" aria-expanded="false" aria-controls="quick-nav-overlay">
+            <span class="quick-nav-label">快速導覽</span>
+            <span class="quick-nav-icon" aria-hidden="true"></span>
+        </button>
+        <div id="quick-nav-overlay" class="quick-nav-overlay" hidden>
+            <div class="quick-nav-card" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
+                <div class="quick-nav-header">
+                    <span id="quick-nav-title">快速導覽</span>
+                    <button type="button" class="quick-nav-close" aria-label="關閉快速導覽"></button>
+                </div>
+                <nav class="quick-nav-list" aria-label="頁面區塊導覽">
+                    <a href="#poster-section" data-quick-nav-link>活動視覺</a>
+                    <a href="#event-info" data-quick-nav-link>活動資訊</a>
+                    <a href="#speakers" data-quick-nav-link>講者專區</a>
+                    <a href="#agenda" data-quick-nav-link>大聚議程</a>
+                    <a href="#registration-info" data-quick-nav-link>報名方式</a>
+                    <a href="#form-section" data-quick-nav-link>立即報名</a>
+                    <a href="#notice" data-quick-nav-link>注意事項</a>
+                </nav>
+            </div>
+        </div>
     </header>
 
     <!-- 活動視覺 -->

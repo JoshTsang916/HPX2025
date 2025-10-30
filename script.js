@@ -201,6 +201,204 @@ document.addEventListener('DOMContentLoaded', function() {
         // 恢復背景滾動
         document.body.style.overflow = '';
     }
+
+    // Header 快速導覽
+    const quickNavToggle = document.querySelector('.quick-nav-toggle');
+    const quickNavOverlay = document.getElementById('quick-nav-overlay');
+    const quickNavClose = document.querySelector('.quick-nav-close');
+    const quickNavCard = quickNavOverlay ? quickNavOverlay.querySelector('.quick-nav-card') : null;
+
+    if (quickNavToggle && quickNavOverlay && quickNavClose && quickNavCard) {
+        if (quickNavOverlay.parentElement !== document.body) {
+            document.body.appendChild(quickNavOverlay);
+        }
+
+        const quickNavLinks = quickNavOverlay.querySelectorAll('[data-quick-nav-link]');
+        let lastFocusedElement = null;
+        let flashTimeout = null;
+        let hideOverlayTimer = null;
+
+        const positionQuickNav = () => {
+            if (
+                !quickNavOverlay.classList.contains('is-visible') &&
+                quickNavOverlay.hasAttribute('hidden')
+            ) {
+                return;
+            }
+
+            if (
+                !quickNavCard ||
+                quickNavCard.offsetWidth === 0
+            ) {
+                return;
+            }
+
+            const toggleRect = quickNavToggle.getBoundingClientRect();
+            const cardWidth = quickNavCard.offsetWidth;
+            const cardHeight = quickNavCard.offsetHeight;
+            const offset = 14;
+            const viewportMargin = 16;
+
+            let top = toggleRect.bottom + offset + window.scrollY;
+            let left = toggleRect.right - cardWidth + window.scrollX;
+
+            const viewportLeft = window.scrollX + viewportMargin;
+            const viewportRight = window.scrollX + window.innerWidth - viewportMargin;
+            const viewportBottom = window.scrollY + window.innerHeight - viewportMargin;
+
+            if (left + cardWidth > viewportRight) {
+                left = viewportRight - cardWidth;
+            }
+            if (left < viewportLeft) {
+                left = viewportLeft;
+            }
+
+            if (top + cardHeight > viewportBottom && toggleRect.top - offset - cardHeight > window.scrollY + viewportMargin) {
+                top = toggleRect.top - offset - cardHeight + window.scrollY;
+                quickNavOverlay.dataset.dropDirection = 'up';
+            } else {
+                quickNavOverlay.dataset.dropDirection = 'down';
+            }
+
+            quickNavOverlay.style.top = `${top}px`;
+            quickNavOverlay.style.left = `${left}px`;
+        };
+
+        const handleDocumentClick = (event) => {
+            if (!quickNavOverlay.classList.contains('is-visible')) {
+                return;
+            }
+
+            if (
+                !quickNavOverlay.contains(event.target) &&
+                event.target !== quickNavToggle
+            ) {
+                closeQuickNav();
+            }
+        };
+
+        const handleWindowChange = () => {
+            positionQuickNav();
+        };
+
+        const openQuickNav = () => {
+            if (quickNavOverlay.classList.contains('is-visible')) {
+                return;
+            }
+
+            if (hideOverlayTimer) {
+                clearTimeout(hideOverlayTimer);
+                hideOverlayTimer = null;
+            }
+
+            lastFocusedElement = document.activeElement;
+            quickNavOverlay.hidden = false;
+            quickNavOverlay.style.visibility = 'hidden';
+            quickNavOverlay.classList.remove('is-visible');
+            quickNavOverlay.dataset.dropDirection = 'down';
+            positionQuickNav();
+            quickNavOverlay.style.visibility = '';
+
+            requestAnimationFrame(() => {
+                quickNavOverlay.classList.add('is-visible');
+                quickNavToggle.setAttribute('aria-expanded', 'true');
+                quickNavToggle.classList.add('is-open');
+                positionQuickNav();
+                quickNavClose.focus();
+            });
+
+            document.addEventListener('click', handleDocumentClick);
+            window.addEventListener('resize', handleWindowChange);
+            window.addEventListener('scroll', handleWindowChange);
+        };
+
+        const closeQuickNav = () => {
+            if (!quickNavOverlay.classList.contains('is-visible')) {
+                return;
+            }
+
+            quickNavOverlay.classList.remove('is-visible');
+            quickNavToggle.setAttribute('aria-expanded', 'false');
+            quickNavToggle.classList.remove('is-open');
+
+            document.removeEventListener('click', handleDocumentClick);
+            window.removeEventListener('resize', handleWindowChange);
+            window.removeEventListener('scroll', handleWindowChange);
+
+            if (hideOverlayTimer) {
+                clearTimeout(hideOverlayTimer);
+                hideOverlayTimer = null;
+            }
+
+            hideOverlayTimer = setTimeout(() => {
+                quickNavOverlay.hidden = true;
+                quickNavOverlay.style.top = '';
+                quickNavOverlay.style.left = '';
+                delete quickNavOverlay.dataset.dropDirection;
+                hideOverlayTimer = null;
+            }, 200);
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+
+            lastFocusedElement = null;
+        };
+
+        const toggleQuickNav = () => {
+            if (hideOverlayTimer) {
+                clearTimeout(hideOverlayTimer);
+                hideOverlayTimer = null;
+            }
+
+            if (!quickNavOverlay.classList.contains('is-visible')) {
+                openQuickNav();
+            } else {
+                closeQuickNav();
+            }
+        };
+
+        const handleLinkClick = (event) => {
+            const targetId = event.currentTarget.getAttribute('href');
+            closeQuickNav();
+
+            if (flashTimeout) {
+                clearTimeout(flashTimeout);
+            }
+
+            if (targetId && targetId.startsWith('#')) {
+                const section = document.querySelector(targetId);
+                if (section) {
+                    document.querySelectorAll('.quick-nav-flash').forEach((el) => {
+                        if (el !== section) {
+                            el.classList.remove('quick-nav-flash');
+                        }
+                    });
+                    section.classList.add('quick-nav-flash');
+                    flashTimeout = setTimeout(() => {
+                        section.classList.remove('quick-nav-flash');
+                        flashTimeout = null;
+                    }, 1200);
+                }
+            }
+        };
+
+        quickNavToggle.addEventListener('click', (event) => {
+            event.stopPropagation();
+            toggleQuickNav();
+        });
+        quickNavClose.addEventListener('click', closeQuickNav);
+
+        quickNavLinks.forEach((link) => {
+            link.addEventListener('click', handleLinkClick);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && quickNavOverlay.classList.contains('is-visible')) {
+                closeQuickNav();
+            }
+        });
+    }
 });
 
 // ========================================
