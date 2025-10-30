@@ -596,7 +596,10 @@ window.addEventListener('DOMContentLoaded', function() {
         'stickers/sticker3.png',
         'stickers/sticker4.png',
         'stickers/sticker5.png',
-        'stickers/sticker6.png'
+        'stickers/sticker6.png',
+        'stickers/s1.png',
+        'stickers/s2.png',
+        'stickers/s3.png',
     ];
 
     // 預載入圖片
