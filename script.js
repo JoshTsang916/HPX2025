@@ -205,10 +205,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Header 快速導覽
     const quickNavToggle = document.querySelector('.quick-nav-toggle');
     const quickNavOverlay = document.getElementById('quick-nav-overlay');
-    const quickNavClose = document.querySelector('.quick-nav-close');
     const quickNavCard = quickNavOverlay ? quickNavOverlay.querySelector('.quick-nav-card') : null;
 
-    if (quickNavToggle && quickNavOverlay && quickNavClose && quickNavCard) {
+    if (quickNavToggle && quickNavOverlay && quickNavCard) {
         if (quickNavOverlay.parentElement !== document.body) {
             document.body.appendChild(quickNavOverlay);
         }
@@ -217,6 +216,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let lastFocusedElement = null;
         let flashTimeout = null;
         let hideOverlayTimer = null;
+        const handleWindowChange = () => {
+            positionQuickNav();
+        };
+        const handleScrollClose = () => {
+            if (quickNavOverlay.classList.contains('is-visible')) {
+                closeQuickNav();
+            }
+        };
 
         const positionQuickNav = () => {
             if (
@@ -239,12 +246,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const offset = 14;
             const viewportMargin = 16;
 
-            let top = toggleRect.bottom + offset + window.scrollY;
+            const triggerTop = toggleRect.top + window.scrollY;
+            const triggerBottom = toggleRect.bottom + window.scrollY;
+
+            let top = triggerBottom + offset;
             let left = toggleRect.right - cardWidth + window.scrollX;
 
             const viewportLeft = window.scrollX + viewportMargin;
             const viewportRight = window.scrollX + window.innerWidth - viewportMargin;
             const viewportBottom = window.scrollY + window.innerHeight - viewportMargin;
+            const viewportTop = window.scrollY + viewportMargin;
+            const availableBelow = viewportBottom - (triggerBottom + offset);
+            const availableAbove = triggerTop - offset - viewportTop;
 
             if (left + cardWidth > viewportRight) {
                 left = viewportRight - cardWidth;
@@ -253,13 +266,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 left = viewportLeft;
             }
 
-            if (top + cardHeight > viewportBottom && toggleRect.top - offset - cardHeight > window.scrollY + viewportMargin) {
-                top = toggleRect.top - offset - cardHeight + window.scrollY;
-                quickNavOverlay.dataset.dropDirection = 'up';
-            } else {
-                quickNavOverlay.dataset.dropDirection = 'down';
+            let dropDirection = 'down';
+            if (availableBelow < cardHeight && availableAbove > availableBelow) {
+                dropDirection = 'up';
             }
 
+            if (dropDirection === 'down') {
+                top = triggerBottom + offset;
+                const maxTop = viewportBottom - cardHeight;
+                top = Math.min(top, maxTop);
+            } else {
+                top = triggerTop - offset - cardHeight;
+                const minTop = viewportTop;
+                top = Math.max(top, minTop);
+            }
+
+            const maxTop = viewportBottom - cardHeight;
+            const minTop = viewportTop;
+            if (maxTop < minTop) {
+                top = minTop;
+            } else {
+                top = Math.max(minTop, Math.min(top, maxTop));
+            }
+
+            quickNavOverlay.dataset.dropDirection = dropDirection;
             quickNavOverlay.style.top = `${top}px`;
             quickNavOverlay.style.left = `${left}px`;
         };
@@ -275,10 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ) {
                 closeQuickNav();
             }
-        };
-
-        const handleWindowChange = () => {
-            positionQuickNav();
         };
 
         const openQuickNav = () => {
@@ -304,12 +330,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 quickNavToggle.setAttribute('aria-expanded', 'true');
                 quickNavToggle.classList.add('is-open');
                 positionQuickNav();
-                quickNavClose.focus();
+                const focusTarget = quickNavLinks.length ? quickNavLinks[0] : quickNavToggle;
+                if (focusTarget && typeof focusTarget.focus === 'function') {
+                    focusTarget.focus();
+                }
             });
 
             document.addEventListener('click', handleDocumentClick);
             window.addEventListener('resize', handleWindowChange);
-            window.addEventListener('scroll', handleWindowChange);
+            window.addEventListener('scroll', handleScrollClose, { passive: true });
         };
 
         const closeQuickNav = () => {
@@ -323,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.removeEventListener('click', handleDocumentClick);
             window.removeEventListener('resize', handleWindowChange);
-            window.removeEventListener('scroll', handleWindowChange);
+            window.removeEventListener('scroll', handleScrollClose);
 
             if (hideOverlayTimer) {
                 clearTimeout(hideOverlayTimer);
@@ -387,7 +416,6 @@ document.addEventListener('DOMContentLoaded', function() {
             event.stopPropagation();
             toggleQuickNav();
         });
-        quickNavClose.addEventListener('click', closeQuickNav);
 
         quickNavLinks.forEach((link) => {
             link.addEventListener('click', handleLinkClick);
