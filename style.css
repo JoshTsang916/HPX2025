@@ -1490,9 +1490,11 @@ html {
     backdrop-filter: blur(5px);
     z-index: 9999;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px;
+    padding-top: 40px;
     animation: fadeIn 0.3s ease-in-out;
+    overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -1511,6 +1513,8 @@ html {
     padding: 35px;
     max-width: 550px;
     width: 100%;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
     box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.9),
         0 0 40px rgba(78, 205, 196, 0.4),
@@ -1670,28 +1674,75 @@ html {
 
 /* 響應式設計 - 行動裝置 */
 @media (max-width: 480px) {
+    .modal {
+        padding: 10px;
+        padding-top: 20px;
+    }
+
     .modal-content {
-        padding: 25px 20px;
+        padding: 20px 15px;
+        max-height: calc(100vh - 40px);
     }
 
     .modal-content h3 {
         font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .modal-notice {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .confirmation-details {
+        padding: 15px;
+        margin-bottom: 15px;
     }
 
     .detail-item {
         flex-direction: column;
         gap: 5px;
+        padding: 8px 0;
     }
 
     .detail-label {
         min-width: auto;
+        font-size: 0.9rem;
+    }
+
+    .detail-value {
+        font-size: 0.95rem;
     }
 
     .modal-buttons {
         flex-direction: column;
+        gap: 10px;
     }
 
     .modal-btn {
         width: 100%;
+        padding: 12px 20px;
+        font-size: 0.95rem;
     }
+}
+
+/* 美化滾動條 - 針對 modal-content */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--accent-teal);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 205, 196, 0.8);
 }
