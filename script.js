@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('confirmation-modal');
     const confirmBtn = document.getElementById('confirm-btn');
     const cancelBtn = document.getElementById('cancel-btn');
+    const successModal = document.getElementById('success-modal');
+    const successCloseBtn = document.getElementById('success-close-btn');
     let isSubmitting = false;
     let formDataToSubmit = null;
 
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 確認按鈕事件監聽 - 真正送出表單
     confirmBtn.addEventListener('click', async function() {
-        // 隱藏對話框
+        // 隱藏確認對話框
         hideConfirmationModal();
 
         // 設定送出狀態
@@ -42,18 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // 發送到 webhook
             await sendToWebhook(formDataToSubmit);
 
-            // 顯示成功訊息
-            showSuccessMessage();
+            // 顯示成功對話框
+            showSuccessModal();
 
             // 清空表單
             form.reset();
             formDataToSubmit = null;
 
-            // 5 秒後恢復按鈕狀態
-            setTimeout(() => {
-                hideMessage();
-                setSubmittingState(false);
-            }, 5000);
+            // 恢復按鈕狀態
+            setSubmittingState(false);
 
         } catch (error) {
             // 顯示錯誤訊息
@@ -80,6 +79,18 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             hideConfirmationModal();
+        }
+    });
+
+    // 成功對話框關閉按鈕事件監聽
+    successCloseBtn.addEventListener('click', function() {
+        hideSuccessModal();
+    });
+
+    // 點擊成功對話框外部關閉對話框
+    successModal.addEventListener('click', function(e) {
+        if (e.target === successModal) {
+            hideSuccessModal();
         }
     });
 
@@ -197,6 +208,27 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function hideConfirmationModal() {
         modal.style.display = 'none';
+
+        // 恢復背景滾動
+        document.body.style.overflow = '';
+    }
+
+    /**
+     * 顯示成功對話框
+     */
+    function showSuccessModal() {
+        // 顯示成功對話框
+        successModal.style.display = 'flex';
+
+        // 防止背景滾動
+        document.body.style.overflow = 'hidden';
+    }
+
+    /**
+     * 隱藏成功對話框
+     */
+    function hideSuccessModal() {
+        successModal.style.display = 'none';
 
         // 恢復背景滾動
         document.body.style.overflow = '';

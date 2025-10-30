@@ -412,6 +412,31 @@
         </div>
     </div>
 
+    <!-- 成功對話框 -->
+    <div id="success-modal" class="modal" style="display: none;">
+        <div class="modal-content success-modal-content">
+            <div class="success-icon">✓</div>
+            <h3>已成功送出報名資料</h3>
+            <p class="modal-notice success-notice">請加入 Line 官方帳號完成報名認證</p>
+
+            <div class="success-content">
+                <div class="qr-code-container">
+                    <img src="lineQRcode.png" alt="Line 官方帳號 QR Code" class="line-qr-code">
+                    <p class="qr-hint">掃描 QR Code 或點擊下方按鈕加入</p>
+                </div>
+
+                <div class="modal-buttons">
+                    <a href="https://lin.ee/XYd8h7g" class="modal-btn line-link-btn" target="_blank" rel="noopener">
+                        前往 Line 官方帳號
+                    </a>
+                    <button type="button" id="success-close-btn" class="modal-btn success-close-btn">
+                        已完成認證流程
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 注意事項 -->
     <section id="notice">
         <h2>注意事項</h2>
