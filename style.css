@@ -1535,32 +1535,6 @@ html {
     }
 }
 
-/* 金屬光澤效果 */
-.modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        transparent
-    );
-    animation: modalShine 3s linear infinite;
-}
-
-@keyframes modalShine {
-    0% {
-        left: -50%;
-    }
-    100% {
-        left: 150%;
-    }
-}
-
 .modal-content h3 {
     margin: 0 0 15px 0;
     font-size: 1.6rem;
