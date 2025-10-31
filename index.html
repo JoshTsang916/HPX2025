@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【HPX9KH x 好南人Fun學趣】 聯合大聚</title>
+    <title>【HP9KH x 好南人Fun學趣】 聯合大聚</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
         <!-- Stickers 碰撞效果 -->
         <canvas id="header-stickers-canvas"></canvas>
 
-        <h1>HPX9KH x 好南人Fun學趣</h1>
+        <h1>HP9KH x 好南人Fun學趣</h1>
         <p class="event-subtitle">《遇》 書 x 知識 x 人</p>
         <a href="#form-section" class="cta-button">我要報名</a>
 
@@ -91,7 +91,7 @@
 
             <div class="info-card">
                 <h3>活動日期</h3>
-                <p>2025 年 12 月 7 日 (日)<br>13:00 - 17:00</p>
+                <p>2025 年 12 月 7 日 (日)<br>13:00 - 16:50</p>
             </div>
 
             <div class="info-card">
@@ -314,9 +314,9 @@
         <div class="info-card" style="margin-top: 30px;">
             <h3>匯款資訊</h3>
             <p>
-                <strong>銀行：</strong>台新銀行 / 銀行代碼 : 812<br>
+                <strong>銀行：</strong>國泰世華 / 銀行代碼 : 013<br>
                 <strong>戶名：</strong>譚珮秀<br>
-                <strong>帳號：</strong>28881000884010<br>
+                <strong>帳號：</strong>699504764340<br>
                 <strong>金額：</strong>NT$ 350
             </p>
         </div>
@@ -367,14 +367,17 @@
             </div>
 
             <div class="form-actions">
-                <div class="action-buttons">
-                    <button type="submit" id="submit-btn" class="submit-button">確認送出報名</button>
+                <button type="submit" id="submit-btn" class="submit-button">確認送出報名</button>
+
+                <p class="process-hint">報名認證流程：<br>送出報名資訊 → 加入Line官方 → 於Line官方中輸入報名者全名並送出 → 報名認證完成</p>
+
+                <div class="line-section">
                     <a href="https://lin.ee/XYd8h7g" class="line-button" target="_blank" rel="noopener">點此加入 2025大聚 LINE 官方帳號</a>
+                    <figure class="qr-block">
+                        <img src="lineQRcode.png" alt="加入 LINE 官方帳號 QR Code">
+                        <figcaption>或掃描 QR Code 加入</figcaption>
+                    </figure>
                 </div>
-                <figure class="qr-block">
-                    <img src="lineQRcode.png" alt="加入 LINE 官方帳號 QR Code">
-                    <figcaption>或掃描 QR Code 加入 Line 官方帳號 確認報名資訊</figcaption>
-                </figure>
             </div>
 
             <!-- 送出狀態提示 -->
@@ -417,17 +420,19 @@
         <div class="modal-content success-modal-content">
             <div class="success-icon">✓</div>
             <h3>已成功送出報名資料</h3>
-            <p class="modal-notice success-notice">請加入 Line 官方帳號完成報名認證</p>
+            <p class="process-hint">下一步：<br>加入Line官方 → 於Line官方中輸入報名者全名並送出 → 報名認證完成</p>
 
             <div class="success-content">
                 <div class="qr-code-container">
-                    <img src="lineQRcode.png" alt="Line 官方帳號 QR Code" class="line-qr-code">
-                    <p class="qr-hint">掃描 QR Code 或點擊下方按鈕加入</p>
+                    <figure class="qr-block">
+                        <img src="lineQRcode.png" alt="加入 LINE 官方帳號 QR Code">
+                        <figcaption>掃描 QR Code 加入<br>HPX2025大聚Line官方帳號<br>或點選下方按鈕加入</figcaption>
+                    </figure>
                 </div>
 
                 <div class="modal-buttons">
                     <a href="https://lin.ee/XYd8h7g" class="modal-btn line-link-btn" target="_blank" rel="noopener">
-                        前往 Line 官方帳號
+                        前往HPX2025大聚 Line 官方帳號
                     </a>
                     <button type="button" id="success-close-btn" class="modal-btn success-close-btn">
                         已完成認證流程
@@ -443,7 +448,7 @@
 
         <div class="notice-list">
             <ol>
-                <li><strong>報名確認：</strong>完成匯款並填寫表單後，請加入此次活動<a href="https://lin.ee/XYd8h7g" target="_blank">Line官方帳號(HPX 高雄 2025 大聚)</a>，在Line官方帳號中可查詢報名是否成功，若有疑問請主動聯繫活動負責人。</li>
+                <li><strong>報名認證流程：</strong>完成匯款並填寫表單後，請加入此次活動<a href="https://lin.ee/XYd8h7g" target="_blank">Line官方帳號(HPX 高雄 2025 大聚)</a>，在Line官方帳號中輸入報名全名即可完成報名認證流程，若有疑問請主動聯繫活動負責人。</li>
 
                 <li><strong>個人資料保護：</strong>您所提供的個人資料僅供本次活動報名、聯繫及後續活動通知使用，我們將遵守個人資料保護法相關規定，不會將您的資料提供給第三方或作為其他用途。</li>
 
@@ -455,7 +460,7 @@
     <!-- 頁尾 -->
     <footer>
         <p>&copy; 2025 HPX 高雄讀書會版權所有</p>
-        <p>由 HPX 高雄讀書會用心籌辦 | 期待與您在書海中相遇</p>
+        <p>由 HPX 高雄讀書會籌辦 | 期待與您在書海中相遇</p>
     </footer>
 
     <!-- 主要 JavaScript 邏輯 -->
