@@ -12,12 +12,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelBtn = document.getElementById('cancel-btn');
     const successModal = document.getElementById('success-modal');
     const successCloseBtn = document.getElementById('success-close-btn');
+    const countdownTimer = document.getElementById('countdown-timer');
+    const countdownStatus = document.getElementById('countdown-status');
+    const countdownBanner = document.getElementById('countdown-banner');
+    const registrationDeadline = new Date('2025-12-06T12:00:00+08:00');
+    let countdownInterval = null;
+    let registrationClosed = false;
     let isSubmitting = false;
     let formDataToSubmit = null;
 
     // 表單送出事件監聽 - 顯示確認對話框
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+
+        if (registrationClosed) {
+            closeRegistration();
+            return;
+        }
 
         // 防止重複送出
         if (isSubmitting) {
@@ -154,11 +165,86 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.style.cursor = 'not-allowed';
             submitBtn.textContent = '送出中...';
         } else {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
-            submitBtn.textContent = '確認送出報名';
+            submitBtn.disabled = registrationClosed;
+            submitBtn.style.opacity = registrationClosed ? '0.7' : '1';
+            submitBtn.style.cursor = registrationClosed ? 'not-allowed' : 'pointer';
+            submitBtn.textContent = registrationClosed ? '報名已截止' : '確認送出報名';
         }
+    }
+
+    /**
+     * 倒數更新
+     */
+    function updateCountdown() {
+        const now = new Date();
+        const diff = registrationDeadline.getTime() - now.getTime();
+
+        if (diff <= 0) {
+            closeRegistration();
+            return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        if (countdownTimer) {
+            countdownTimer.textContent = `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}`;
+        }
+
+        if (countdownStatus) {
+            countdownStatus.textContent = '';
+        }
+    }
+
+    /**
+     * 補零
+     */
+    function padNumber(value) {
+        return String(value).padStart(2, '0');
+    }
+
+    /**
+     * 關閉報名
+     */
+    function closeRegistration() {
+        if (registrationClosed) {
+            return;
+        }
+
+        registrationClosed = true;
+        isSubmitting = false;
+
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+
+        if (countdownTimer) {
+            countdownTimer.textContent = '00:00:00';
+        }
+
+        if (countdownStatus) {
+            countdownStatus.textContent = '報名已截止';
+            countdownStatus.classList.add('is-closed');
+        }
+
+        if (countdownBanner) {
+            countdownBanner.classList.add('is-closed');
+        }
+
+        if (form) {
+            form.classList.add('is-closed');
+            const formElements = form.querySelectorAll('input, button, textarea, select');
+            formElements.forEach((element) => {
+                element.disabled = true;
+            });
+        }
+
+        setSubmittingState(false);
+        hideConfirmationModal();
+        hideSuccessModal();
     }
 
     /**
@@ -233,6 +319,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 恢復背景滾動
         document.body.style.overflow = '';
     }
+
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
 
     // Header 快速導覽
     const quickNavToggle = document.querySelector('.quick-nav-toggle');

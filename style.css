@@ -1094,6 +1094,42 @@ section li {
     scroll-margin-top: 20px;
 }
 
+.countdown-banner {
+    margin-top: 18px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border-metal);
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.08), rgba(233, 30, 140, 0.06));
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.countdown-label {
+    color: var(--accent-teal);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.countdown-time {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-status {
+    color: #e91e8c;
+    font-weight: 700;
+}
+
+.countdown-banner.is-closed {
+    background: linear-gradient(135deg, rgba(233, 30, 140, 0.12), rgba(233, 30, 140, 0.05));
+    border-color: rgba(233, 30, 140, 0.5);
+}
+
 form {
     background: var(--card-bg);
     padding: 40px;
@@ -1120,6 +1156,10 @@ form::before {
         radial-gradient(circle at 80% 70%, rgba(0,0,0,0.4) 0%, transparent 40%),
         radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.03) 0%, transparent 60%);
     pointer-events: none;
+}
+
+form.is-closed {
+    opacity: 0.8;
 }
 
 .form-group {
@@ -1364,6 +1404,16 @@ input[type="email"]:focus {
     box-shadow:
         0 8px 25px rgba(107, 31, 58, 0.6),
         inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.submit-button:disabled {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: var(--text-gray);
+    border-color: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
 }
 
 /* ===== 注意事項區塊 - 深色警告區 ===== */
